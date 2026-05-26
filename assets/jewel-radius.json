@@ -80,7 +80,7 @@
                 "h": 281
             }
         },
-        "jewelRadius:EternalEmpireJewelCircle2": {
+        "jewelRadius:KalguurJewelCircle2": {
             "frame": {
                 "x": 843,
                 "y": 793,
@@ -88,7 +88,7 @@
                 "h": 281
             }
         },
-        "jewelRadius:EternalEmpireJewelCircle1": {
+        "jewelRadius:KalguurJewelCircle1": {
             "frame": {
                 "x": 1305,
                 "y": 0,
@@ -96,26 +96,42 @@
                 "h": 281
             }
         },
-        "jewelRadius:JewelCircle1Inverse": {
+        "jewelRadius:EternalEmpireJewelCircle2": {
             "frame": {
                 "x": 1305,
                 "y": 281,
+                "w": 281,
+                "h": 281
+            }
+        },
+        "jewelRadius:EternalEmpireJewelCircle1": {
+            "frame": {
+                "x": 1305,
+                "y": 562,
+                "w": 281,
+                "h": 281
+            }
+        },
+        "jewelRadius:JewelCircle1Inverse": {
+            "frame": {
+                "x": 0,
+                "y": 1074,
                 "w": 256,
                 "h": 256
             }
         },
         "jewelRadius:JewelCircle1": {
             "frame": {
-                "x": 1305,
-                "y": 537,
+                "x": 256,
+                "y": 1074,
                 "w": 256,
                 "h": 256
             }
         },
         "jewelRadius:DruidOracleAscendancy3": {
             "frame": {
-                "x": 1305,
-                "y": 793,
+                "x": 512,
+                "y": 1074,
                 "w": 256,
                 "h": 256
             }
@@ -126,7 +142,7 @@
         "scale": "0.5",
         "size": {
             "w": 1586,
-            "h": 1074
+            "h": 1330
         }
     }
 }
