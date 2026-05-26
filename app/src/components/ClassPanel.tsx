@@ -33,19 +33,17 @@ function ClassPanel({
     >
       <div className="panel__title">Class · Ascendancy</div>
       <div className="class-grid">
-        {classes.map((c, i) => (
-          <button
-            key={c.name}
-            className={
-              "class-chip" +
-              (selectedClass === i ? " active" : "") +
-              (isPlayable(c) ? "" : " legacy")
-            }
-            onClick={() => onSelectClass(selectedClass === i ? null : i)}
-          >
-            {c.name}
-          </button>
-        ))}
+        {classes.map((c, i) =>
+          isPlayable(c) ? (
+            <button
+              key={c.name}
+              className={"class-chip" + (selectedClass === i ? " active" : "")}
+              onClick={() => onSelectClass(selectedClass === i ? null : i)}
+            >
+              {c.name}
+            </button>
+          ) : null
+        )}
       </div>
 
       <AnimatePresence>
