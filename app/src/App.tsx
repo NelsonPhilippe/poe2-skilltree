@@ -111,6 +111,7 @@ export default function App() {
     const ov = selectedClass != null ? tree.classOverrides.get(selectedClass) ?? null : null;
     const out: TreeNode[] = [];
     for (const n of tree.nodeList) {
+      if (n.kind === "mastery") continue; // masteries aren't rendered → don't match/highlight
       const o = ov?.get(n.key);
       const name = o?.name ?? n.name;
       const stats = o?.stats ?? n.stats;
