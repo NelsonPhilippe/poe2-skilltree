@@ -1,8 +1,12 @@
 import type { ParsedTree, VersionDiff, DiffEntry, MovedEntry } from "../types";
+import { cleanStat } from "./text";
 
 const isReal = (name: string) => !!name && !name.startsWith("[DNT");
+// Compare the *displayed* stat text, so markup-only retags (e.g.
+// "[ItemDefences|Item Energy Shield]" → "[ItemEnergyShield|Item Energy Shield]",
+// or "Equipment" → "[Equipment]") don't get flagged as reworks.
 const sameStats = (a: string[], b: string[]) =>
-  a.length === b.length && a.every((s, i) => s === b[i]);
+  a.length === b.length && a.every((s, i) => cleanStat(s) === cleanStat(b[i]));
 // Minimum world-space shift to count a node as "moved" (skips micro-adjustments).
 const MOVE_MIN = 100;
 
