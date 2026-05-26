@@ -1,8 +1,10 @@
-import type { ParsedTree, VersionDiff, DiffEntry } from "../types";
+import type { ParsedTree, VersionDiff, DiffEntry, MovedEntry } from "../types";
 
 const isReal = (name: string) => !!name && !name.startsWith("[DNT");
 const sameStats = (a: string[], b: string[]) =>
   a.length === b.length && a.every((s, i) => s === b[i]);
+// Minimum world-space shift to count a node as "moved" (skips micro-adjustments).
+const MOVE_MIN = 100;
 
 /**
  * Diff two parsed trees keyed by numeric skill id (the stable dict key).
@@ -11,7 +13,8 @@ const sameStats = (a: string[], b: string[]) =>
 export function computeDiff(prev: ParsedTree, next: ParsedTree): VersionDiff {
   const byKey = new Map<string, DiffEntry>();
   const removed: DiffEntry[] = [];
-  const counts = { added: 0, removed: 0, stats: 0, renamed: 0 };
+  const moved: MovedEntry[] = [];
+  const counts = { added: 0, removed: 0, stats: 0, renamed: 0, moved: 0 };
 
   // added + modified (iterate the newer tree)
   for (const [key, n] of next.nodes) {
@@ -22,6 +25,13 @@ export function computeDiff(prev: ParsedTree, next: ParsedTree): VersionDiff {
         counts.added++;
       }
       continue;
+    }
+    // relocation is independent of content changes (a node can move *and* be
+    // reworked), so it's tracked separately rather than via byKey.
+    const dx = n.x - o.x;
+    const dy = n.y - o.y;
+    if (dx * dx + dy * dy > MOVE_MIN * MOVE_MIN) {
+      moved.push({ key, name: n.name || o.name, fromX: o.x, fromY: o.y, toX: n.x, toY: n.y });
     }
     const statsChanged = !sameStats(o.stats, n.stats);
     const nameChanged = o.name !== n.name && isReal(o.name) && isReal(n.name);
@@ -85,7 +95,8 @@ export function computeDiff(prev: ParsedTree, next: ParsedTree): VersionDiff {
     }
   }
 
-  return { byKey, removed, counts };
+  counts.moved = moved.length;
+  return { byKey, removed, moved, counts };
 }
 
 export const DIFF_COLORS: Record<string, string> = {
@@ -93,4 +104,5 @@ export const DIFF_COLORS: Record<string, string> = {
   removed: "#ef5d5d",
   stats: "#f5b740",
   renamed: "#5fd6cd",
+  moved: "#6f93ff",
 };

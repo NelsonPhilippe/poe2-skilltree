@@ -60,6 +60,11 @@ function VersionPanel({ version, setVersion, diffOn, setDiffOn, diff }: Props) {
             Removed (ghosted)
             <span className="legend__count">{c.removed}</span>
           </div>
+          <div className="legend__row">
+            <span className="legend__swatch" style={{ background: DIFF_COLORS.moved, color: DIFF_COLORS.moved }} />
+            Moved
+            <span className="legend__count">{c.moved}</span>
+          </div>
         </motion.div>
       )}
     </motion.div>

@@ -265,6 +265,10 @@ export function renderTree(
     ctx.globalAlpha = 1;
   }
 
+  // nodes relocated between versions → ringed at their current position below
+  const movedKeys =
+    opts.diffOn && opts.diff ? new Set<string>(opts.diff.moved.map((m) => m.key)) : null;
+
   // ---- nodes -----------------------------------------------------------
   const lodCutoff = 7; // css px
   const dotBuckets = new Map<string, { color: string; alpha: number; path: Path2D }>();
@@ -335,6 +339,14 @@ export function renderTree(
       if (!p) ringBuckets.set(c, (p = new Path2D()));
       p.moveTo(px + ringR, py);
       p.arc(px, py, ringR, 0, Math.PI * 2);
+    }
+    if (movedKeys && movedKeys.has(n.key)) {
+      const c = DIFF_COLORS.moved;
+      let p = ringBuckets.get(c);
+      if (!p) ringBuckets.set(c, (p = new Path2D()));
+      const r = ringR * 1.28; // sits just outside a content-diff ring if both apply
+      p.moveTo(px + r, py);
+      p.arc(px, py, r, 0, Math.PI * 2);
     }
     if (opts.searchHits.has(n.key)) {
       const c = "#5fd6cd";

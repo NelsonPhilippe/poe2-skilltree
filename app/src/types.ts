@@ -163,7 +163,7 @@ export interface ParsedTree {
   adjacency: Map<string, string[]>;
 }
 
-export type DiffStatus = "added" | "removed" | "stats" | "renamed";
+export type DiffStatus = "added" | "removed" | "stats" | "renamed" | "moved";
 
 export interface DiffEntry {
   status: DiffStatus;
@@ -175,8 +175,19 @@ export interface DiffEntry {
   ghost?: { x: number; y: number; name: string; kind: NodeKind };
 }
 
+// A node present in both versions whose position changed (0.4 → 0.5).
+export interface MovedEntry {
+  key: string;
+  name: string;
+  fromX: number;
+  fromY: number;
+  toX: number;
+  toY: number;
+}
+
 export interface VersionDiff {
   byKey: Map<string, DiffEntry>;
   removed: DiffEntry[];
-  counts: { added: number; removed: number; stats: number; renamed: number };
+  moved: MovedEntry[];
+  counts: { added: number; removed: number; stats: number; renamed: number; moved: number };
 }
