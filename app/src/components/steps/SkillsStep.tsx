@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { parseLevel, fmtLevel, type BuildSkill } from "../../lib/buildFile";
+import { levelParts, makeLevel, type BuildSkill } from "../../lib/buildFile";
 import { usePoeDb } from "../../lib/poedb";
 
 interface Props {
@@ -49,10 +49,21 @@ function SkillsStep({ skills, setSkills }: Props) {
               />
               <input
                 className="lvl-field"
-                placeholder="Lv"
-                title="Level range, e.g. 1 or 0-20"
-                value={fmtLevel(s.level_interval)}
-                onChange={(e) => patch(i, (x) => ({ ...x, level_interval: parseLevel(e.target.value) }))}
+                placeholder="lvl"
+                title="Start level (optional)"
+                value={levelParts(s.level_interval)[0]}
+                onChange={(e) =>
+                  patch(i, (x) => ({ ...x, level_interval: makeLevel(e.target.value, levelParts(x.level_interval)[1]) }))
+                }
+              />
+              <input
+                className="lvl-field"
+                placeholder="to"
+                title="End level (optional)"
+                value={levelParts(s.level_interval)[1]}
+                onChange={(e) =>
+                  patch(i, (x) => ({ ...x, level_interval: makeLevel(levelParts(x.level_interval)[0], e.target.value) }))
+                }
               />
               <button className="skill-card__rm" onClick={() => removeSkill(i)} title="Remove skill">
                 ✕
@@ -69,9 +80,21 @@ function SkillsStep({ skills, setSkills }: Props) {
                   />
                   <input
                     className="lvl-field"
-                    placeholder="Lv"
-                    value={fmtLevel(sup.level_interval)}
-                    onChange={(e) => setSupport(i, j, (x) => ({ ...x, level_interval: parseLevel(e.target.value) }))}
+                    placeholder="lvl"
+                    title="Start level (optional)"
+                    value={levelParts(sup.level_interval)[0]}
+                    onChange={(e) =>
+                      setSupport(i, j, (x) => ({ ...x, level_interval: makeLevel(e.target.value, levelParts(x.level_interval)[1]) }))
+                    }
+                  />
+                  <input
+                    className="lvl-field"
+                    placeholder="to"
+                    title="End level (optional)"
+                    value={levelParts(sup.level_interval)[1]}
+                    onChange={(e) =>
+                      setSupport(i, j, (x) => ({ ...x, level_interval: makeLevel(levelParts(x.level_interval)[0], e.target.value) }))
+                    }
                   />
                   <button onClick={() => removeSupport(i, j)} title="Remove support">
                     –

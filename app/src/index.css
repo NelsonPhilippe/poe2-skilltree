@@ -990,12 +990,13 @@ body {
 }
 .inv-slot {
   display: grid;
-  grid-template-columns: 116px 1fr 120px 56px;
+  grid-template-columns: 108px 1fr 92px 40px 40px;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
 }
 .lvl-field {
   width: 100%;
+  min-width: 0;
   background: rgba(0, 0, 0, 0.35);
   border: 1px solid var(--line);
   border-radius: 3px;
@@ -1003,12 +1004,16 @@ body {
   font-family: var(--font-mono);
   font-size: 12px;
   text-align: center;
-  padding: 6px 4px;
+  padding: 6px 2px;
 }
 .skill-card__head .lvl-field,
 .skill-support .lvl-field {
-  width: 52px;
+  width: 40px;
   flex: none;
+}
+.skill-card__gem,
+.skill-support input {
+  min-width: 0;
 }
 .lvl-field:focus {
   outline: none;

@@ -26,22 +26,23 @@ export interface BuildSkill {
   additional_text?: string;
 }
 
-/** parse a "12" / "0-100" level field into the .build value */
-export function parseLevel(s: string): LevelInterval | undefined {
-  const t = s.trim();
-  if (!t) return undefined;
-  if (t.includes("-")) {
-    const [a, b] = t.split("-").map((x) => parseInt(x.trim(), 10));
-    if (!isNaN(a) && !isNaN(b)) return [a, b];
-  }
-  const n = parseInt(t, 10);
-  return isNaN(n) ? undefined : n;
+/** split a level_interval into [start, end] strings for the two inputs */
+export function levelParts(li?: LevelInterval): [string, string] {
+  if (li == null) return ["", ""];
+  if (Array.isArray(li)) return [li[0] != null ? String(li[0]) : "", li[1] != null ? String(li[1]) : ""];
+  return [String(li), ""];
 }
 
-/** format a level_interval for an input field */
-export function fmtLevel(li?: LevelInterval): string {
-  if (li == null) return "";
-  return Array.isArray(li) ? li.join("-") : String(li);
+/** build a level_interval from start/end fields: [a,b], a single uint, or undefined */
+export function makeLevel(startStr: string, endStr: string): LevelInterval | undefined {
+  const a = startStr.trim() === "" ? undefined : parseInt(startStr, 10);
+  const b = endStr.trim() === "" ? undefined : parseInt(endStr, 10);
+  const av = a != null && !isNaN(a) ? a : undefined;
+  const bv = b != null && !isNaN(b) ? b : undefined;
+  if (av != null && bv != null) return [av, bv];
+  if (av != null) return av;
+  if (bv != null) return bv;
+  return undefined;
 }
 
 export type BuildPassiveEntry = string | { id: string; weapon_set?: number; additional_text?: string };

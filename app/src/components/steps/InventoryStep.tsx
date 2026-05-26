@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { parseLevel, fmtLevel, type BuildInventorySlot } from "../../lib/buildFile";
+import { levelParts, makeLevel, type BuildInventorySlot } from "../../lib/buildFile";
 import { usePoeDb } from "../../lib/poedb";
 
 interface Props {
@@ -69,10 +69,21 @@ function InventoryStep({ inventory, setInventory, selectedAsc }: Props) {
             />
             <input
               className="lvl-field"
-              placeholder="Lv"
-              title="Level range, e.g. 1 or 0-100"
-              value={fmtLevel(byId[slot.id]?.level_interval)}
-              onChange={(e) => update(slot.id, { level_interval: parseLevel(e.target.value) })}
+              placeholder="lvl"
+              title="Start level (optional)"
+              value={levelParts(byId[slot.id]?.level_interval)[0]}
+              onChange={(e) =>
+                update(slot.id, { level_interval: makeLevel(e.target.value, levelParts(byId[slot.id]?.level_interval)[1]) })
+              }
+            />
+            <input
+              className="lvl-field"
+              placeholder="to"
+              title="End level (optional)"
+              value={levelParts(byId[slot.id]?.level_interval)[1]}
+              onChange={(e) =>
+                update(slot.id, { level_interval: makeLevel(levelParts(byId[slot.id]?.level_interval)[0], e.target.value) })
+              }
             />
           </div>
         ))}
