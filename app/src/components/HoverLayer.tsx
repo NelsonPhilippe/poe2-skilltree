@@ -11,6 +11,7 @@ interface Props {
   diffOn: boolean;
   overrides: Map<string, NodeOverride> | null;
   className?: string;
+  notes: Record<string, string>;
 }
 
 /**
@@ -19,7 +20,7 @@ interface Props {
  * not on every pixel of movement.
  */
 const HoverLayer = forwardRef<HoverHandle, Props>(function HoverLayer(
-  { diff, diffOn, overrides, className },
+  { diff, diffOn, overrides, className, notes },
   ref
 ) {
   const [h, setH] = useState<{ node: TreeNode; x: number; y: number } | null>(null);
@@ -48,6 +49,7 @@ const HoverLayer = forwardRef<HoverHandle, Props>(function HoverLayer(
       diffOn={diffOn}
       override={overrides?.get(h.node.key)}
       className={className}
+      note={notes[h.node.key]}
     />
   );
 });

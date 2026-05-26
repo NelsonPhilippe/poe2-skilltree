@@ -1,6 +1,7 @@
 import type { TreeNode, DiffEntry, NodeOverride } from "../types";
 import { cleanStat, KIND_LABEL } from "../lib/text";
 import { DIFF_COLORS } from "../lib/diff";
+import MarkupText from "./MarkupText";
 
 interface Props {
   node: TreeNode;
@@ -10,6 +11,7 @@ interface Props {
   diffOn: boolean;
   override?: NodeOverride;
   className?: string;
+  note?: string;
 }
 
 const DIFF_LABEL: Record<string, string> = {
@@ -19,7 +21,7 @@ const DIFF_LABEL: Record<string, string> = {
   renamed: "Renamed in 0.5",
 };
 
-export default function Tooltip({ node, x, y, diff, diffOn, override, className }: Props) {
+export default function Tooltip({ node, x, y, diff, diffOn, override, className, note }: Props) {
   const left = Math.min(x + 20, window.innerWidth - 360);
   const top = Math.min(y + 20, window.innerHeight - 280);
   const kindClass =
@@ -53,6 +55,12 @@ export default function Tooltip({ node, x, y, diff, diffOn, override, className 
       )}
       {node.flavourText.length > 0 && (
         <div className="tooltip__flavour">{node.flavourText.join(" ")}</div>
+      )}
+
+      {note && note.trim() && (
+        <div className="tooltip__note">
+          <MarkupText text={note} />
+        </div>
       )}
 
       {showDiff && (

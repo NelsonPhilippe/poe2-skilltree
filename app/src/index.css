@@ -726,6 +726,16 @@ body {
   color: var(--ink-faint);
   line-height: 1.45;
 }
+.tooltip__note {
+  margin-top: 9px;
+  padding: 7px 9px;
+  border-left: 2px solid var(--gold);
+  background: rgba(200, 163, 90, 0.08);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink);
+  white-space: pre-wrap;
+}
 .tooltip__diff {
   margin-top: 10px;
   padding-top: 10px;

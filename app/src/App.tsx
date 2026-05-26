@@ -534,6 +534,7 @@ export default function App() {
         diffOn={diffOn}
         overrides={activeOverrides}
         className={className}
+        notes={doc.notes}
       />
     </div>
   );
