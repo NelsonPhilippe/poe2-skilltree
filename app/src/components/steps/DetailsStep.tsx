@@ -35,14 +35,16 @@ function DetailsStep({
     <div className="panel step step--details">
       <div className="step__title">Build Details</div>
 
-      <label className="field">
-        <span className="field__label">Name</span>
-        <input value={name} onChange={(e) => setField("name", e.target.value)} placeholder="My Build" autoFocus />
-      </label>
-      <label className="field">
-        <span className="field__label">Author</span>
-        <input value={author} onChange={(e) => setField("author", e.target.value)} placeholder="optional" />
-      </label>
+      <div className="field-row">
+        <label className="field">
+          <span className="field__label">Name</span>
+          <input value={name} onChange={(e) => setField("name", e.target.value)} placeholder="My Build" autoFocus />
+        </label>
+        <label className="field">
+          <span className="field__label">Author</span>
+          <input value={author} onChange={(e) => setField("author", e.target.value)} placeholder="optional" />
+        </label>
+      </div>
       <label className="field">
         <span className="field__label">Description</span>
         <textarea
